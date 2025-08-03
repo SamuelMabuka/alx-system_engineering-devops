@@ -1,0 +1,25 @@
+#!/bin/bash
+
+: "${WATER:?WATER not set}"
+: "${STIR:?STIR not set}"
+: "${WATER_BASE:?WATER_BASE not set}"
+: "${STIR_BASE:?STIR_BASE not set}"
+: "${BESTCHOL_BASE:?BESTCHOL_BASE not set}"
+
+w_dec=$((WATER_BASE#$WATER))
+s_dec=$((STIR_BASE#$STIR))
+sum=$((w_dec + s_dec))
+
+to_base() {
+  digits="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  num=$1
+  base=$2
+  res=""
+  while [ "$num" -gt 0 ]; do
+    res="${digits:num%base:1}$res"
+    num=$((num / base))
+  done
+  echo "${res:-0}"
+}
+
+to_base "$sum" "$BESTCHOL_BASE"
